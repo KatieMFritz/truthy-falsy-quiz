@@ -1,3 +1,6 @@
+/***********************************************
+/* Set up some variables
+************************************************/
 // Parts of the HTML
 var tellMe = document.getElementById('tell-me')
 var question = document.getElementById('question')
@@ -8,50 +11,50 @@ var next = document.getElementById('next')
 var truthyExplanation = 'This is truthy, because it is <em>something</em>!'
 var falsyExplanation = 'This is falsy, because it is <em>nothing</em>!'
 
-var isFalsy
+// Question Bank
+// first set up what your falsy values are
 var falsyValues = ['false', '0', 'null', 'undefined']
+// combine the falsy values with your truthy values
+var questions = falsyValues.concat(
+  ['true', '100', '\'apple\'', '\'green\'', '\'0\'', '\'🐱\''])
 
-// Stuff to Change
+var isFalsy // declare it globally so you can use it later
+
+/***********************************************************
+/* Functions
+************************************************************/
+// What changes on the page
 var refresh = function () {
+  // Generate a random index number for our questions array
+  var randomIndex = Math.floor(Math.random() * questions.length)
+  // Get the value with that index from questions
+  var randomQuestion = questions[randomIndex]
+  // Change the question on the page
+  question.innerHTML = randomQuestion
+  // Make the previous answer disappear
   explanationArea.innerHTML = ''
-  var random = Math.random()
-  if (random > 0.9) {
-    question.innerHTML = 'apple'
-  } else if (random > 0.8) {
-    question.innerHTML = 'null'
-  } else if (random > 0.7) {
-    question.innerHTML = '0'
-  } else if (random > 0.6) {
-    question.innerHTML = '\'0\''
-  } else if (random > 0.5) {
-    question.innerHTML = '100'
-  } else if (random > 0.4) {
-    question.innerHTML = '0'
-  } else if (random > 0.3) {
-    question.innerHTML = '🐱'
-  } else if (random > 0.2) {
-    question.innerHTML = 'false'
-  } else if (random > 0.1) {
-    question.innerHTML = 'green'
-  } else {
-    question.innerHTML = 'undefined'
-  }
+  // Set isFalsy based on the value from questions
   isFalsy = falsyValues.some(function (falsyValue) {
     return question.textContent === falsyValue
   })
 }
 
+// Select the appropriate explanation and show it
 var EXPLAIN = function () {
-  if (isFalsy) {
+  if (isFalsy) { // is the question in falsyValues?
     explanationArea.innerHTML = falsyExplanation
-  } else {
+  } else { // any other value from questions
     explanationArea.innerHTML = truthyExplanation
   }
 }
 
+/*************************************************************
+/* And now we actually do stuff
+**************************************************************/
 // Initialize
 refresh()
 
-// Event listeners
+// When the user clicks Tell Me, show the explanation
 tellMe.addEventListener('click', EXPLAIN)
+// When the user clicks Next, give them a new question
 next.addEventListener('click', refresh)
