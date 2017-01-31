@@ -9,19 +9,29 @@ var truthyButton = document.getElementById('truthy-button')
 var falsyButton = document.getElementById('falsy-button')
 
 // Messages
-var truthyExplanation = 'This is truthy, because it is <em>something</em>!'
-var falsyExplanation = 'This is falsy, because it is <em>nothing</em>!'
+var whyTruthy = 'This is truthy, because it is <em>something</em>!'
+var whyTruthyTrue = 'This is truthy, because it\'s literally <em>true</em>!'
+var whyTruthyNumber = 'This is truthy, because it\'s <em>something</em> - a non-zero number!'
+var whyTruthyString = 'This is truthy, because it\'s <em>something</em> - a non-empty string!'
+var whyFalsy = 'This is falsy, because it is <em>nothing</em>!'
 var correct = 'Correct! '
 var incorrect = 'Try again! '
 
 // Question Bank
 // first set up what your falsy values are
-var falsyValues = ['false', '0', 'null', 'undefined']
-// combine the falsy values with your truthy values
-var questions = falsyValues.concat(
-  ['true', '100', '\'apple\'', '\'green\'', '\'0\'', '\'🐱\''])
+var falsyValues = ['false', '0', 'null', 'undefined', '\'\'']
+// then set up some truthy values
+var truthyStrings = ['\'apple\'', '\'green\'', '\'0\'', '\'🐱\'', '\'false\'']
+var truthyNumbers = ['100', '-7', '0.25']
+var truthyTrue = ['true']
+// combine them all into your question bank
+var questions = falsyValues.concat(truthyStrings, truthyNumbers, truthyTrue)
 
-var isFalsy // declare it globally so you can use it later
+// Declare these globally so you can use them later
+var isFalsy
+var isTruthyString
+var isTruthyNumber
+var isTruthyTrue
 
 /***********************************************************
 /* Functions
@@ -40,19 +50,34 @@ var refresh = function () {
   isFalsy = falsyValues.some(function (falsyValue) {
     return question.textContent === falsyValue
   })
+  isTruthyString = truthyStrings.some(function (truthyString) {
+    return question.textContent === truthyString
+  })
+  isTruthyNumber = truthyNumbers.some(function (truthyNumber) {
+    return question.textContent === truthyNumber
+  })
+  isTruthyTrue = truthyTrue.some(function (truthyTrue) {
+    return question.textContent === truthyTrue
+  })
 }
 
 var clickedTruthy = function () {
   if (isFalsy) {
     answer.innerHTML = incorrect
+  } else if (isTruthyString) {
+    answer.innerHTML = correct + whyTruthyString
+  } else if (isTruthyNumber) {
+    answer.innerHTML = correct + whyTruthyNumber
+  } else if (isTruthyTrue) {
+    answer.innerHTML = correct + whyTruthyTrue
   } else {
-    answer.innerHTML = correct + truthyExplanation
+    answer.innerHTML = correct + whyTruthy
   }
 }
 
 var clickedFalsy = function () {
   if (isFalsy) {
-    answer.innerHTML = correct + falsyExplanation
+    answer.innerHTML = correct + whyFalsy
   } else {
     answer.innerHTML = incorrect
   }
