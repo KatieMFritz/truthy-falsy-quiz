@@ -3,7 +3,7 @@
 ************************************************/
 // Parts of the HTML
 var question = document.getElementById('question')
-var explanationArea = document.getElementById('explanation-area')
+var answer = document.getElementById('answer')
 var next = document.getElementById('next')
 var truthyButton = document.getElementById('truthy-button')
 var falsyButton = document.getElementById('falsy-button')
@@ -35,7 +35,7 @@ var refresh = function () {
   // Change the question on the page
   question.innerHTML = randomQuestion
   // Make the previous answer disappear
-  explanationArea.innerHTML = ''
+  answer.innerHTML = ''
   // Set isFalsy based on the value from questions
   isFalsy = falsyValues.some(function (falsyValue) {
     return question.textContent === falsyValue
@@ -44,17 +44,17 @@ var refresh = function () {
 
 var clickedTruthy = function () {
   if (isFalsy) {
-    explanationArea.innerHTML = incorrect
+    answer.innerHTML = incorrect
   } else {
-    explanationArea.innerHTML = correct + truthyExplanation
+    answer.innerHTML = correct + truthyExplanation
   }
 }
 
 var clickedFalsy = function () {
   if (isFalsy) {
-    explanationArea.innerHTML = correct + falsyExplanation
+    answer.innerHTML = correct + falsyExplanation
   } else {
-    explanationArea.innerHTML = incorrect
+    answer.innerHTML = incorrect
   }
 }
 
