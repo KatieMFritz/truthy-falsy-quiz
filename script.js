@@ -2,14 +2,17 @@
 /* Set up some variables
 ************************************************/
 // Parts of the HTML
-var tellMe = document.getElementById('tell-me')
 var question = document.getElementById('question')
 var explanationArea = document.getElementById('explanation-area')
 var next = document.getElementById('next')
+var truthyButton = document.getElementById('truthy-button')
+var falsyButton = document.getElementById('falsy-button')
 
 // Messages
 var truthyExplanation = 'This is truthy, because it is <em>something</em>!'
 var falsyExplanation = 'This is falsy, because it is <em>nothing</em>!'
+var correct = 'Correct! '
+var incorrect = 'Try again! '
 
 // Question Bank
 // first set up what your falsy values are
@@ -39,12 +42,19 @@ var refresh = function () {
   })
 }
 
-// Select the appropriate explanation and show it
-var EXPLAIN = function () {
-  if (isFalsy) { // is the question in falsyValues?
-    explanationArea.innerHTML = falsyExplanation
-  } else { // any other value from questions
-    explanationArea.innerHTML = truthyExplanation
+var clickedTruthy = function () {
+  if (isFalsy) {
+    explanationArea.innerHTML = incorrect
+  } else {
+    explanationArea.innerHTML = correct + truthyExplanation
+  }
+}
+
+var clickedFalsy = function () {
+  if (isFalsy) {
+    explanationArea.innerHTML = correct + falsyExplanation
+  } else {
+    explanationArea.innerHTML = incorrect
   }
 }
 
@@ -54,7 +64,9 @@ var EXPLAIN = function () {
 // Initialize
 refresh()
 
-// When the user clicks Tell Me, show the explanation
-tellMe.addEventListener('click', EXPLAIN)
+// When the user clicks Truthy, show the answer
+truthyButton.addEventListener('click', clickedTruthy)
+// When the user clicks Falsy, show the answer
+falsyButton.addEventListener('click', clickedFalsy)
 // When the user clicks Next, give them a new question
 next.addEventListener('click', refresh)
