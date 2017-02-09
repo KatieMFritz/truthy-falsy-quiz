@@ -2,36 +2,46 @@
 /* Set up some variables
 ************************************************/
 // Parts of the HTML
-var question = document.getElementById('question')
-var answer = document.getElementById('answer')
+var questionArea = document.getElementById('question')
+var answerArea = document.getElementById('answer')
 var next = document.getElementById('next')
 var truthyButton = document.getElementById('truthy-button')
 var falsyButton = document.getElementById('falsy-button')
 
+// Questions
+var questions = {
+  'truthyTrue': {
+    statement: ['true'],
+    explanation: 'This is truthy, because it\'s literally <em>true</em>!'
+  },
+  truthyNumber: {
+    statement: ['100', '-7', '0.25'],
+    explanation: 'This is truthy, because it\'s <em>something</em> - a non-zero number!'
+  },
+  truthyString: {
+    statement: ['\'apple\'', '\'green\'', '\'0\'', '\'🐱\'', '\'false\''],
+    explanation: 'This is truthy, because it\'s <em>something</em> - a non-empty string!'
+  },
+  falsyValues: {
+    statement: ['false', '0', 'null', 'undefined', '\'\''],
+    explanation: 'This is falsy, because it is <em>nothing</em>!'
+  }
+}
+
 // Messages
-var whyTruthy = 'This is truthy, because it is <em>something</em>!'
-var whyTruthyTrue = 'This is truthy, because it\'s literally <em>true</em>!'
-var whyTruthyNumber = 'This is truthy, because it\'s <em>something</em> - a non-zero number!'
-var whyTruthyString = 'This is truthy, because it\'s <em>something</em> - a non-empty string!'
-var whyFalsy = 'This is falsy, because it is <em>nothing</em>!'
 var correct = 'Correct! '
 var incorrect = 'Try again! '
 
-// Question Bank
-// first set up what your falsy values are
-var falsyValues = ['false', '0', 'null', 'undefined', '\'\'']
-// then set up some truthy values
-var truthyStrings = ['\'apple\'', '\'green\'', '\'0\'', '\'🐱\'', '\'false\'']
-var truthyNumbers = ['100', '-7', '0.25']
-var truthyTrue = ['true']
 // combine them all into your question bank
-var questions = falsyValues.concat(truthyStrings, truthyNumbers, truthyTrue)
+var questionBank = []
+Object.keys(questions).forEach(function (key) {
+  questionBank = questionBank.concat(questions[key].statement)
+})
 
-// Declare these globally so you can use them later
-var isFalsy
-var isTruthyString
-var isTruthyNumber
-var isTruthyTrue
+var updateQuestionArea = function () {
+  // use vals array
+  questionArea.textContent = questionBank.join(' + ')
+}
 
 /***********************************************************
 /* Functions
@@ -39,50 +49,14 @@ var isTruthyTrue
 // What changes on the page
 var refresh = function () {
   // Generate a random index number for our questions array
-  var randomIndex = Math.floor(Math.random() * questions.length)
+  var randomIndex = Math.floor(Math.random() * questionBank.length)
   // Get the value with that index from questions
-  var randomQuestion = questions[randomIndex]
+  var randomQuestion = questionBank[randomIndex]
   // Change the question on the page
-  question.innerHTML = randomQuestion
+  questionArea.innerHTML = randomQuestion
   // Make the previous answer disappear
-  answer.innerHTML = ''
-  // Set isFalsy based on the value from questions
-  isFalsy = falsyValues.some(function (falsyValue) {
-    return question.textContent === falsyValue
-  })
-  isTruthyString = truthyStrings.some(function (truthyString) {
-    return question.textContent === truthyString
-  })
-  isTruthyNumber = truthyNumbers.some(function (truthyNumber) {
-    return question.textContent === truthyNumber
-  })
-  isTruthyTrue = truthyTrue.some(function (truthyTrue) {
-    return question.textContent === truthyTrue
-  })
+  answerArea.innerHTML = ''
 }
-
-var clickedTruthy = function () {
-  if (isFalsy) {
-    answer.innerHTML = incorrect
-  } else if (isTruthyString) {
-    answer.innerHTML = correct + whyTruthyString
-  } else if (isTruthyNumber) {
-    answer.innerHTML = correct + whyTruthyNumber
-  } else if (isTruthyTrue) {
-    answer.innerHTML = correct + whyTruthyTrue
-  } else {
-    answer.innerHTML = correct + whyTruthy
-  }
-}
-
-var clickedFalsy = function () {
-  if (isFalsy) {
-    answer.innerHTML = correct + whyFalsy
-  } else {
-    answer.innerHTML = incorrect
-  }
-}
-
 /*************************************************************
 /* And now we actually do stuff
 **************************************************************/
