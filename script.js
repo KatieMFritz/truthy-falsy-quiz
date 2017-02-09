@@ -8,6 +8,10 @@ var next = document.getElementById('next')
 var truthyButton = document.getElementById('truthy-button')
 var falsyButton = document.getElementById('falsy-button')
 
+// Messages
+var correct = 'Correct! '
+var incorrect = 'Try again! '
+
 // Questions
 var questions = {
   'truthyTrue': {
@@ -28,20 +32,11 @@ var questions = {
   }
 }
 
-// Messages
-var correct = 'Correct! '
-var incorrect = 'Try again! '
-
 // combine them all into your question bank
 var questionBank = []
 Object.keys(questions).forEach(function (key) {
   questionBank = questionBank.concat(questions[key].statement)
 })
-
-var updateQuestionArea = function () {
-  // use vals array
-  questionArea.textContent = questionBank.join(' + ')
-}
 
 /***********************************************************
 /* Functions
@@ -57,6 +52,15 @@ var refresh = function () {
   // Make the previous answer disappear
   answerArea.innerHTML = ''
 }
+
+var clickedTruthy = function () {
+  answerArea.innerHTML = 'you clicked truthy'
+}
+
+var clickedFalsy = function () {
+  answerArea.innerHTML = 'you clicked falsy'
+}
+
 /*************************************************************
 /* And now we actually do stuff
 **************************************************************/
