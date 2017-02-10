@@ -11,8 +11,8 @@ var truthyButton = document.getElementById('truthy-button')
 var falsyButton = document.getElementById('falsy-button')
 
 // Messages
-var correct = 'Correct! '
-var incorrect = 'Try again!'
+var correct = 'Correct! 🎉 '
+var incorrect = 'Try again! 😞'
 
 // Questions
 var questions = {
