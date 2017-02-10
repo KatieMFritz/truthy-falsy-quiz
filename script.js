@@ -1,18 +1,18 @@
-// cSpell:words truthy falsy
-
 /***********************************************
 /* Set up some variables
 ************************************************/
+// cSpell:words truthy falsy
+
 // Parts of the HTML
-var questionArea = document.getElementById('question')
-var answerArea = document.getElementById('answer')
-var nextButton = document.getElementById('next')
+var questionArea = document.getElementById('question-area')
+var answerArea = document.getElementById('answer-area')
+var nextButton = document.getElementById('next-button')
 var truthyButton = document.getElementById('truthy-button')
 var falsyButton = document.getElementById('falsy-button')
 
 // Messages
 var correct = 'Correct! '
-var incorrect = 'Try again! '
+var incorrect = 'Try again!'
 
 // Questions
 var questions = {
@@ -40,6 +40,7 @@ var questions = {
 
 // combine them all into your question bank
 var questionBank = []
+
 Object.keys(questions).forEach(function (key) {
   questionBank = questionBank.concat(questions[key].statements)
 })
@@ -47,23 +48,26 @@ Object.keys(questions).forEach(function (key) {
 /***********************************************************
 /* Functions
 ************************************************************/
+// Declare some global variables to use later
 var randomQuestion = ''
 var answer = ''
 var explanation = ''
 
+// Get a question, its answer, and its explanation
 var getQuestion = function() {
   // Generate a random index number for our questions array
   var randomIndex = Math.floor(Math.random() * questionBank.length)
   // Get the value with that index from questions
   randomQuestion = questionBank[randomIndex]
-  // check all the statements for each question key against randomQuestion
+  // check the items of the "statements" array for each question key against value of randomQuestion
   Object.keys(questions).forEach(function (key) {
-    var questionStatements = questions[key].statements
-    // if randomQuestion is found in the statements for one of the question types
-    if (questionStatements.indexOf(randomQuestion) !== -1) {
-      // set some values
-      answer = questions[key].which
-      explanation = questions[key].explanation
+    var questionStatementsList = questions[key].statements
+    // if randomQuestion is found in the statements for one of the question types (has a real index)
+    if (questionStatementsList.indexOf(randomQuestion) !== -1) {
+      // and now we set those values
+      var currentQuestion = questions[key]
+      answer = currentQuestion.which
+      explanation = currentQuestion.explanation
     }
   })
 }
