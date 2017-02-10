@@ -90,9 +90,9 @@ var clickedTruthy = function () {
 
 var clickedFalsy = function () {
   if (answer === 'truthy') {
-    answerArea.textContent = incorrect
+    answerArea.innerHTML = incorrect
   } else {
-    answerArea.textContent = correct + explanation
+    answerArea.innerHTML = correct + explanation
   }
 }
 
