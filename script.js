@@ -14,20 +14,24 @@ var incorrect = 'Try again! '
 
 // Questions
 var questions = {
-  'truthyTrue': {
-    statement: ['true'],
+  truthyTrue: {
+    which: 'truthy',
+    statements: ['true'],
     explanation: 'This is truthy, because it\'s literally <em>true</em>!'
   },
   truthyNumber: {
-    statement: ['100', '-7', '0.25'],
+    which: 'truthy',
+    statements: ['100', '-7', '0.25'],
     explanation: 'This is truthy, because it\'s <em>something</em> - a non-zero number!'
   },
   truthyString: {
-    statement: ['\'apple\'', '\'green\'', '\'0\'', '\'🐱\'', '\'false\''],
+    which: 'truthy',
+    statements: ['\'apple\'', '\'green\'', '\'0\'', '\'🐱\'', '\'false\''],
     explanation: 'This is truthy, because it\'s <em>something</em> - a non-empty string!'
   },
   falsyValues: {
-    statement: ['false', '0', 'null', 'undefined', '\'\''],
+    which: 'falsy',
+    statements: ['false', '0', 'null', 'undefined', '\'\''],
     explanation: 'This is falsy, because it is <em>nothing</em>!'
   }
 }
@@ -35,7 +39,7 @@ var questions = {
 // combine them all into your question bank
 var questionBank = []
 Object.keys(questions).forEach(function (key) {
-  questionBank = questionBank.concat(questions[key].statement)
+  questionBank = questionBank.concat(questions[key].statements)
 })
 
 /***********************************************************
