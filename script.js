@@ -1,10 +1,12 @@
+// cSpell:words truthy falsy
+
 /***********************************************
 /* Set up some variables
 ************************************************/
 // Parts of the HTML
 var questionArea = document.getElementById('question')
 var answerArea = document.getElementById('answer')
-var next = document.getElementById('next')
+var nextButton = document.getElementById('next')
 var truthyButton = document.getElementById('truthy-button')
 var falsyButton = document.getElementById('falsy-button')
 
@@ -45,12 +47,29 @@ Object.keys(questions).forEach(function (key) {
 /***********************************************************
 /* Functions
 ************************************************************/
-// What changes on the page
-var refresh = function () {
+var randomQuestion = ''
+var answer = ''
+var explanation = ''
+
+var getQuestion = function() {
   // Generate a random index number for our questions array
   var randomIndex = Math.floor(Math.random() * questionBank.length)
   // Get the value with that index from questions
-  var randomQuestion = questionBank[randomIndex]
+  randomQuestion = questionBank[randomIndex]
+  // check all the statements for each question key against randomQuestion
+  Object.keys(questions).forEach(function (key) {
+    var questionStatements = questions[key].statements
+    // if randomQuestion is found in the statements for one of the question types
+    if (questionStatements.indexOf(randomQuestion) !== -1) {
+      // set some values
+      answer = questions[key].which
+      explanation = questions[key].explanation
+    }
+  })
+}
+
+var refresh = function () {
+  getQuestion()
   // Change the question on the page
   questionArea.innerHTML = randomQuestion
   // Make the previous answer disappear
@@ -58,11 +77,19 @@ var refresh = function () {
 }
 
 var clickedTruthy = function () {
-  answerArea.innerHTML = 'you clicked truthy'
+  if (answer === 'falsy') {
+    answerArea.innerHTML = incorrect
+  } else {
+    answerArea.innerHTML = correct + explanation
+  }
 }
 
 var clickedFalsy = function () {
-  answerArea.innerHTML = 'you clicked falsy'
+  if (answer === 'truthy') {
+    answerArea.textContent = incorrect
+  } else {
+    answerArea.textContent = correct + explanation
+  }
 }
 
 /*************************************************************
@@ -75,5 +102,5 @@ refresh()
 truthyButton.addEventListener('click', clickedTruthy)
 // When the user clicks Falsy, show the answer
 falsyButton.addEventListener('click', clickedFalsy)
-// When the user clicks Next, give them a new question
-next.addEventListener('click', refresh)
+// When the user clicks nextButton, give them a new question
+nextButton.addEventListener('click', refresh)
