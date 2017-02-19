@@ -72,7 +72,7 @@ var getQuestion = function() {
   })
 }
 
-var refresh = function () {
+var updateQuestion = function () {
   getQuestion()
   // Change the question on the page
   questionArea.innerHTML = randomQuestion
@@ -100,11 +100,11 @@ var clickedFalsy = function () {
 /* And now we actually do stuff
 **************************************************************/
 // Initialize
-refresh()
+updateQuestion()
 
 // When the user clicks Truthy, show the answer
 truthyButton.addEventListener('click', clickedTruthy)
 // When the user clicks Falsy, show the answer
 falsyButton.addEventListener('click', clickedFalsy)
 // When the user clicks nextButton, give them a new question
-nextButton.addEventListener('click', refresh)
+nextButton.addEventListener('click', updateQuestion)
