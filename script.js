@@ -1,14 +1,14 @@
+// cSpell:words truthy falsy
 /***********************************************
 /* Set up some variables
 ************************************************/
-// cSpell:words truthy falsy
 
 // Parts of the HTML
 var questionArea = document.getElementById('question-area')
 var answerArea = document.getElementById('answer-area')
 var nextButton = document.getElementById('next-button')
-var truthyButton = document.getElementById('truthy-button')
-var falsyButton = document.getElementById('falsy-button')
+var truthyButton = document.getElementById('truthy')
+var falsyButton = document.getElementById('falsy')
 
 // Messages
 var messages = {
@@ -82,19 +82,12 @@ var updateQuestion = function () {
   answerArea.innerHTML = ''
 }
 
-var clickedTruthy = function () {
-  if (answer === 'falsy') {
-    answerArea.innerHTML = messages.incorrect
-  } else {
+// Display feedback based on which button the user clicked
+var feedback = function () {
+  if (answer === event.target.id) {
     answerArea.innerHTML = messages.correct + explanation
-  }
-}
-
-var clickedFalsy = function () {
-  if (answer === 'truthy') {
-    answerArea.innerHTML = messages.incorrect
   } else {
-    answerArea.innerHTML = messages.correct + explanation
+    answerArea.innerHTML = messages.incorrect
   }
 }
 
@@ -104,9 +97,9 @@ var clickedFalsy = function () {
 // Initialize
 updateQuestion()
 
-// When the user clicks Truthy, show the answer
-truthyButton.addEventListener('click', clickedTruthy)
-// When the user clicks Falsy, show the answer
-falsyButton.addEventListener('click', clickedFalsy)
-// When the user clicks nextButton, give them a new question
+// When the user clicks Truthy, show feedback
+truthyButton.addEventListener('click', feedback)
+// When the user clicks Falsy, show feedback
+falsyButton.addEventListener('click', feedback)
+// When the user clicks Next, give them a new question
 nextButton.addEventListener('click', updateQuestion)
