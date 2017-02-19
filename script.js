@@ -11,8 +11,10 @@ var truthyButton = document.getElementById('truthy-button')
 var falsyButton = document.getElementById('falsy-button')
 
 // Messages
-var correct = 'Correct! 🎉 '
-var incorrect = 'Try again! 😞'
+var messages = {
+ correct: 'Correct! 🎉 ',
+ incorrect: 'Try again! 😞'
+}
 
 // Questions
 var questions = {
@@ -82,17 +84,17 @@ var updateQuestion = function () {
 
 var clickedTruthy = function () {
   if (answer === 'falsy') {
-    answerArea.innerHTML = incorrect
+    answerArea.innerHTML = messages.incorrect
   } else {
-    answerArea.innerHTML = correct + explanation
+    answerArea.innerHTML = messages.correct + explanation
   }
 }
 
 var clickedFalsy = function () {
   if (answer === 'truthy') {
-    answerArea.innerHTML = incorrect
+    answerArea.innerHTML = messages.incorrect
   } else {
-    answerArea.innerHTML = correct + explanation
+    answerArea.innerHTML = messages.correct + explanation
   }
 }
 
