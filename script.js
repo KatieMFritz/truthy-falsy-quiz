@@ -5,8 +5,8 @@ var initializeQuiz = function () {
   var questionArea = document.getElementById('question-area')
   var answerArea = document.getElementById('answer-area')
   var nextButton = document.getElementById('next-button')
-  var truthyButton = document.getElementById('truthy')
-  var falsyButton = document.getElementById('falsy')
+  var truthyButton = document.getElementById('truthy-button')
+  var falsyButton = document.getElementById('falsy-button')
 
   // Messages
   var messages = {
@@ -46,7 +46,8 @@ var initializeQuiz = function () {
   })
 
   // Declare this so it can be used later
-  var currentExpression
+  var currentExpression = ''
+
   /***********************************************************
   /* Functions
   ************************************************************/
@@ -108,7 +109,7 @@ var initializeQuiz = function () {
   /*************************************************************
   /* And now we actually do stuff
   **************************************************************/
-  // Initialize
+  // Load the question
   displayNewQuestion()
 
   // When the user clicks Truthy, show feedback
