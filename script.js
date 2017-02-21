@@ -45,6 +45,8 @@ var initializeQuiz = function () {
     allExpressions = allExpressions.concat(expressionCategories[categoryName].expressions)
   })
 
+  // Declare this so it can be used later
+  var currentExpression
   /***********************************************************
   /* Functions
   ************************************************************/
@@ -64,10 +66,10 @@ var initializeQuiz = function () {
 
   // Get a new question and update the display
   var displayNewQuestion = function () {
-    // get the next random expression
-    var newExpression = getRandomExpression()
-    // show the new expression in the question area
-    displayQuestion(newExpression)
+    // get the next random expression and update currentExpression
+    currentExpression = getRandomExpression()
+    // show the current expression in the question area
+    displayQuestion(currentExpression)
     // Make the previous answer disappear
     answerArea.innerHTML = ''
   }
@@ -80,6 +82,7 @@ var initializeQuiz = function () {
       var expressionsInCategory = expressionCategories[categoryName].expressions
       return expressionsInCategory.indexOf(expression) !== -1
     })
+    // If expression can't be found, throw an error
     if (!expressionCategoryName) {
       throw new Error('no category found for expression: ' + expression)
     }
@@ -88,14 +91,14 @@ var initializeQuiz = function () {
 
   // Display feedback based on which button the user clicked
   var feedback = function () {
-    // just making sure this is getting called
-    console.log('feedback function was triggered')
-    // TODO: somehow we need to get the value of the existing newExpression to pass it to getExpressionCategory()
-    // var currentExpressionCategory = getExpressionCategory()
-    console.log('newExpression: ' + newExpression)
+    // Get the category that currentExpression is in
+    var currentExpressionCategory = getExpressionCategory(currentExpression)
+    // Get some data about the currentExpression category
     var answer = currentExpressionCategory.isTruthy
     var explanation = currentExpressionCategory.explanation
-    if (answer === event.target.id) {
+    // Display feedback based on what the user clicked
+    if (((event.target === truthyButton) && (answer === true)) ||
+        ((event.target === falsyButton) && (answer === false))) {
       answerArea.innerHTML = messages.correct + explanation
     } else {
       answerArea.innerHTML = messages.incorrect
