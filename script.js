@@ -62,15 +62,7 @@ var initializeQuiz = function () {
     questionArea.innerHTML = expression
   }
 
-  var displayNewQuestion = function () {
-    // get the next random expression
-    var randomExpression = getRandomExpression()
-    // show the new expression in the question area
-    displayQuestion(randomExpression)
-    // Make the previous answer disappear
-    answerArea.innerHTML = ''
-  }
-
+  // given an expression, get its category
   var getExpressionCategory = function (expression) {
     var allCategoryNames = Object.keys(expressionCategories)
     // return the category name for which the expression exists in its list of expressions
@@ -84,18 +76,32 @@ var initializeQuiz = function () {
     return expressionCategories[expressionCategoryName]
   }
 
+  // get a new question and update the display
+  var displayNewQuestion = function () {
+    // get the next random expression
+    var newExpression = getRandomExpression()
+    // show the new expression in the question area
+    displayQuestion(newExpression)
+    // Make the previous answer disappear
+    answerArea.innerHTML = ''
+    // make randomExpression available later?
+    return newExpression
+  }
+
   // Display feedback based on which button the user clicked
   var feedback = function () {
+    // just making sure this is getting called
     console.log('feedback function was triggered')
-    getExpressionCategory()
-    // var currentExpression = getExpressionCategory()
-    // var answer = currentExpressionObject.isTruthy
-    // var explanation = currentExpressionObject.explanation
-    // if (answer === event.target.id) {
-    //   answerArea.innerHTML = messages.correct + explanation
-    // } else {
-    //   answerArea.innerHTML = messages.incorrect
-    // }
+    // TODO: somehow we need to get the value of the existing newExpression to pass it to getExpressionCategory()
+    // var currentExpressionCategory = getExpressionCategory()
+    console.log('newExpression: ' + newExpression)
+    var answer = currentExpressionCategory.isTruthy
+    var explanation = currentExpressionCategory.explanation
+    if (answer === event.target.id) {
+      answerArea.innerHTML = messages.correct + explanation
+    } else {
+      answerArea.innerHTML = messages.incorrect
+    }
   }
 
   /*************************************************************
