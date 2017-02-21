@@ -48,7 +48,7 @@ var initializeQuiz = function () {
   /***********************************************************
   /* Functions
   ************************************************************/
-  // Get an expression, whether it's truthy, and its explanation
+  // Generate a random expression as a string
   var getRandomExpression = function() {
     // Generate a random index number for our expressionCategories array
     var randomIndex = Math.floor(Math.random() * allExpressions.length)
@@ -57,12 +57,22 @@ var initializeQuiz = function () {
     return randomExpression
   }
 
+  // Change the question area on the page
   var displayQuestion = function (expression) {
-    // Change the question area on the page
     questionArea.innerHTML = expression
   }
 
-  // given an expression, get its category
+  // Get a new question and update the display
+  var displayNewQuestion = function () {
+    // get the next random expression
+    var newExpression = getRandomExpression()
+    // show the new expression in the question area
+    displayQuestion(newExpression)
+    // Make the previous answer disappear
+    answerArea.innerHTML = ''
+  }
+
+  // Given an expression as a string, get its category
   var getExpressionCategory = function (expression) {
     var allCategoryNames = Object.keys(expressionCategories)
     // return the category name for which the expression exists in its list of expressions
@@ -74,18 +84,6 @@ var initializeQuiz = function () {
       throw new Error('no category found for expression: ' + expression)
     }
     return expressionCategories[expressionCategoryName]
-  }
-
-  // get a new question and update the display
-  var displayNewQuestion = function () {
-    // get the next random expression
-    var newExpression = getRandomExpression()
-    // show the new expression in the question area
-    displayQuestion(newExpression)
-    // Make the previous answer disappear
-    answerArea.innerHTML = ''
-    // make randomExpression available later?
-    return newExpression
   }
 
   // Display feedback based on which button the user clicked
