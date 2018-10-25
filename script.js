@@ -33,8 +33,13 @@ var initializeQuiz = function () {
     },
     falsyValues: {
       isTruthy: false,
-      expressions: ['false', '0', 'null', 'undefined', '\'\''],
+      expressions: [ '0', 'null', 'undefined', '\'\''],
       explanation: 'This is falsy, because it is <em>nothing</em>!'
+    },
+    falsyFalse: {
+      isTruthy: false,
+      expressions: ['false'],
+      explanation: 'This is falsy, because it\'s literally <em>false</em>!'
     }
   }
 
