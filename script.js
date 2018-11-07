@@ -33,7 +33,7 @@ var initializeQuiz = function () {
     },
     falsyValues: {
       isTruthy: false,
-      expressions: [ '0', 'null', 'undefined', '\'\''],
+      expressions: [ '0', 'null', 'undefined', '\'\'', NaN],
       explanation: 'This is falsy, because it is <em>nothing</em>!'
     },
     falsyFalse: {
@@ -51,18 +51,26 @@ var initializeQuiz = function () {
   })
 
   // Declare this so it can be used later
-  var currentExpression = ''
+  var currentExpressionIndex = -1
 
   /***********************************************************
   /* Functions
   ************************************************************/
-  // Generate a random expression as a string
-  var getRandomExpression = function() {
-    // Generate a random index number for our expressionCategories array
-    var randomIndex = Math.floor(Math.random() * allExpressions.length)
-    // Get the value with that index from expressionCategories
-    var randomExpression = allExpressions[randomIndex]
-    return randomExpression
+  // Use Fisher-Yates algorithm to shuffle array contents
+  var shuffle = function(array) {
+    var currentIndex = array.length
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+      // Pick a remaining element...
+      var randomIndex = Math.floor(Math.random() * currentIndex)
+      currentIndex--
+  
+      // And swap it with the current element.
+      var temporaryValue = array[currentIndex]
+      array[currentIndex] = array[randomIndex]
+      array[randomIndex] = temporaryValue
+    }
+    return array
   }
 
   // Change the question area on the page
@@ -72,12 +80,16 @@ var initializeQuiz = function () {
 
   // Get a new question and update the display
   var displayNewQuestion = function () {
-    // get the next random expression and update currentExpression
-    currentExpression = getRandomExpression()
+    // Advance to next expression
+    currentExpressionIndex++
+    if (currentExpressionIndex >= allExpressions.length) {
+      currentExpressionIndex = 0
+    }
     // show the current expression in the question area
+    var currentExpression = allExpressions[currentExpressionIndex]
     displayQuestion(currentExpression)
     // Make the previous answer disappear
-    answerArea.innerHTML = ''
+    answerArea.innerHTML = '🤔'
   }
 
   // Given an expression as a string, get its category
@@ -86,7 +98,7 @@ var initializeQuiz = function () {
     // return the category name for which the expression exists in its list of expressions
     var expressionCategoryName = allCategoryNames.find(function (categoryName) {
       var expressionsInCategory = expressionCategories[categoryName].expressions
-      return expressionsInCategory.indexOf(expression) !== -1
+      return expressionsInCategory.includes(expression)
     })
     // If expression can't be found, throw an error
     if (!expressionCategoryName) {
@@ -98,6 +110,7 @@ var initializeQuiz = function () {
   // Display feedback based on which button the user clicked
   var feedback = function () {
     // Get the category that currentExpression is in
+    var currentExpression = allExpressions[currentExpressionIndex]
     var currentExpressionCategory = getExpressionCategory(currentExpression)
     // Get some data about the currentExpression category
     var answer = currentExpressionCategory.isTruthy
@@ -114,6 +127,9 @@ var initializeQuiz = function () {
   /*************************************************************
   /* And now we actually do stuff
   **************************************************************/
+  // Randomize the quiz
+  shuffle(allExpressions)
+
   // Load the question
   displayNewQuestion()
 
@@ -122,7 +138,7 @@ var initializeQuiz = function () {
   // When the user clicks Falsy, show feedback
   falsyButton.addEventListener('click', feedback)
   // When the user clicks Next, give them a new question
-  nextButton.addEventListener('click', displayNewQuestion )
+  nextButton.addEventListener('click', displayNewQuestion)
 }
 
 initializeQuiz()
