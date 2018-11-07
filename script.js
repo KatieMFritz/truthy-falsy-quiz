@@ -33,7 +33,7 @@ var initializeQuiz = function () {
     },
     falsyValues: {
       isTruthy: false,
-      expressions: [ '0', 'null', 'undefined', '\'\''],
+      expressions: [ '0', 'null', 'undefined', '\'\'', NaN],
       explanation: 'This is falsy, because it is <em>nothing</em>!'
     },
     falsyFalse: {
@@ -98,7 +98,7 @@ var initializeQuiz = function () {
     // return the category name for which the expression exists in its list of expressions
     var expressionCategoryName = allCategoryNames.find(function (categoryName) {
       var expressionsInCategory = expressionCategories[categoryName].expressions
-      return expressionsInCategory.indexOf(expression) !== -1
+      return expressionsInCategory.includes(expression)
     })
     // If expression can't be found, throw an error
     if (!expressionCategoryName) {
