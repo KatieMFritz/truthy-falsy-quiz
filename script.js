@@ -89,7 +89,7 @@ var initializeQuiz = function () {
     var currentExpression = allExpressions[currentExpressionIndex]
     displayQuestion(currentExpression)
     // Make the previous answer disappear
-    answerArea.innerHTML = ''
+    answerArea.innerHTML = '🤔'
   }
 
   // Given an expression as a string, get its category
